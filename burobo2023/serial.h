@@ -11,18 +11,8 @@ class serial {
 
     void begin() {
       Serial.begin(COMSPEED);
-      //Serial.println("Startup 9600baud");
       while (!Serial) {
       }
-    }
-
-    void establishcontact() {
-      //Serial.print("EstablishContact");
-      while (Serial.available() <= 0) {
-      Serial.print('.');
-      delay(10);
-      }
-      Serial.println("");
     }
 
     void update() {
@@ -30,11 +20,9 @@ class serial {
       Serial.read();
       }
       if (Serial.available() >= DIGITS) {
-        buttonStatus = Serial.parseInt();
-        lx = Serial.parseInt();
-        ly = Serial.parseInt();
-        rx = Serial.parseInt();
-        ry = Serial.parseInt();
+        for (int i = 0; i < CONTENTS; i++) {
+          DUALSHOCK[i] = Serial.parseInt();
+        }
       }
     }
     

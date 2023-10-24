@@ -1,6 +1,6 @@
 class Settings:
     def __init__(self):
-        self.serialport = 'COM3'
+        self.serialport = 'COM11'
         self.comspeed = 9600
         self.vaudlim = 0.1
 
