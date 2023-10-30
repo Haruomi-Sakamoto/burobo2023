@@ -10,22 +10,23 @@ class controll {
     omni();
 
     void drive(){
-      for (int i = 0; i < 2; i++) {
-        dircomponent[i] = map(DUALSHOCK[i+3], JOYSTICKMIN, JOYSTICKMAX, -1, 1);
-      }
-      dircomponent[2] = (map(DUALSHOCK[1], JOYSTICKMIN, JOYSTICKMAX, -1, 1))*(-1);
-      for (int i = 0; i < 4; i++) {
-        velocity[i] = dircomponent[0]*OMUNUS[i]+dircomponent[1]*OMUNUS[i+4]+dircomponent[2]*TURNING_COEFFICIENT;
-      }
-      velmax = velocity[0];
-      for (int i = 0; i < 4; i++) {
-        if (velocity[i] > velmax) {
-          velmax = velocity[i];
+      if(DUALSHOCK[1] != 127){
+        rollcomponent[0] = map(DUALSHOCK[1], JOYSTICKMIN, JOYSTICKMAX, -1, 1);
+        for (int i = 0; i < 4; i++) {
+          mdpulse[i] = map(rollcomponent[0], -1, 1, MDPLSMIN, MDPLSMAX);
+          rot(mdpulse[i],DIR[i],PWM[i]);
         }
-      }
-      for (int i = 0; i < 4; i++) {
-        mdpulse[i] = map(velocity[i], -velmax, velmax, MDPLSMIN, MDPLSMAX);
-        rot(mdpulse[i],DIR[i],PWM[i]);
+      }else{
+        for (int i = 0; i < 2; i++) {
+          dircomponent[i] = map(DUALSHOCK[i+3], JOYSTICKMIN, JOYSTICKMAX, -1, 1);
+        }
+        for (int i = 0; i < 4; i++) {
+          velocity[i] = dircomponent[0]*OMUNUS[i]+dircomponent[1]*OMUNUS[i+4];
+        }
+        for (int i = 0; i < 4; i++) {
+          mdpulse[i] = map(velocity[i], -1, 1, MDPLSMIN, MDPLSMAX);
+          rot(mdpulse[i],DIR[i],PWM[i]);
+        }
       }
     }
 
@@ -35,11 +36,19 @@ class controll {
       }
     }
     
-    void rot(int pulse, int dir_pin, int pwm_pin) {
-    float power = (pulse - 1500)*0.002;
-    if(abs(power) < 0.1) power = 0.0;
-    analogWrite(pwm_pin, abs(power)*255);
-    digitalWrite(pwm_pin,power < 0.0 ? HIGH : LOW); 
+  void rot(int pulse, int dir_pin, int pwm_pin) {
+    if (pulse < 1495) {
+      pulse = pulse < 1000 ? 1000 : pulse;
+      digitalWrite(dir_pin, LOW);
+      analogWrite(pwm_pin, map(pulse, 1500, 1000, 1, 255));
+    } else if (pulse > 1505) {
+      pulse = pulse > 2000 ? 2000 : pulse;
+      digitalWrite(dir_pin, HIGH);
+      analogWrite(pwm_pin, map(pulse, 1500, 2000, 1, 255));
+    } else {
+      analogWrite(pwm_pin, 0);
     }
+  }
+  
 };
 #endif
