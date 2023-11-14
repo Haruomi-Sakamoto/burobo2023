@@ -1,8 +1,8 @@
 import pygame
 import serial
 
-from resource import settings
-from resource import constants
+from rss import settings
+from rss import constants
 
 class PS4Controller:
     def __init__(self):
@@ -54,8 +54,8 @@ class PS4Controller:
                 elif self.ps4.get_button(15):
                     self.button_status = constants.TOUCHPAD
                     
-            elif event.type == pygame.JOYBUTTONUP:
-                self.button_status = constants.BUTTON_DEFALT
+            #elif event.type == pygame.JOYBUTTONUP:
+                #self.button_status = constants.BUTTON_DEFALT
                 
             elif event.type == pygame.JOYAXISMOTION:
                 if abs(self.ps4.get_axis(0)) >= constants.STICK_THRESHOLD or abs(self.ps4.get_axis(1)) >= constants.STICK_THRESHOLD:
@@ -77,7 +77,7 @@ class PS4Controller:
     def write_to_arduino(self):
         data_to_send = ",".join(map(str, self.result))
         self.serial_port.write(data_to_send.encode())
-        #print(data_to_send.encode())
+        #print(data_to_send.encodserial.serialutil.serialtimeoutexception: Write timeoute())
 
 if __name__ == '__main__':
     main = PS4Controller()

@@ -1,28 +1,20 @@
-#include <SoftwareSerial.h>
-
 #include "serial.h"
-#include "controll.h"
+#include "omnus.h"
+#include "servant.h"
 
 serial transmit;
-controll omni;
-
-void(* resetFunc) (void) = 0;
+omnus omni;
+servant claw;
 
 void setup() {
   transmit.begin();
   omni.pinsetting();
-  pinMode(LED_BUILTIN, OUTPUT);
+  claw.home();
 }
 
 void loop() {
   transmit.update();
   omni.drive();
-  if(builtin == 0){
-    digitalWrite(LED_BUILTIN,HIGH);
-    builtin == 1;
-  }else{
-    digitalWrite(LED_BUILTIN,LOW);
-    builtin == 0;
-  }
+  claw.drive();
 }
 

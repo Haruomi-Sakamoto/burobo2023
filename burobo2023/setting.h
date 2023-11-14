@@ -28,6 +28,7 @@ double OMUNUS[8] = {
 };
 
 double velocity[4];
+double velmax;
 int mdpulse[4];
 
 const double TURNING_COEFFICIENT = 0.5;
@@ -36,3 +37,13 @@ const int JOYSTICKMAX = 255;
 const int JOYSTICKMIN = 0;
 const int MDPLSMAX = 2000;
 const int MDPLSMIN = 1000;
+
+int SVPIN[2] = {13,33};
+int HOME[2] = {180,180};
+int RELEASE[2] = {0,0};
+int CATCH[2] = {90,90};
+int CATCH1[2] = {0,180};
+int CATCH2[2] = {90,90};
+int CATCH3[2] = {0,90};
+int CATCH4[2] = {90,180};
+int current[2];

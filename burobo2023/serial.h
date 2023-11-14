@@ -1,10 +1,6 @@
 #ifndef SERIAL_H
 #define SERIAL_H
 
-#include <ControllerConvertor.h>
-
-ControllerConvertor cc;
-
 #include "setting.h"
 
 class serial {
@@ -12,7 +8,7 @@ class serial {
 
   public:
     transmit();
-
+    
     void begin() {
       Serial.begin(COMSPEED);
       while (!Serial) {
